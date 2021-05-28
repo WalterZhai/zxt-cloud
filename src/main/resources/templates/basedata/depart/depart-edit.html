@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>编辑部门</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}"/>
+	<script th:src="@{/layui/layui.js}"></script>
+	<script th:src="@{/assets/js/templet.js}"></script>
+</head>
+<body>
+
+<form class="layui-form layui-form-pane padding02" action="" method="post" onsubmit="return false;"  id="form01">
+	<input name="id" type="hidden" th:value="${depart.id}">
+
+	<div class="layui-form-item">
+		<label class="layui-form-label layui-bg-cyan layui-required">部门名称</label>
+		<div class="layui-input-inline">
+			<input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input" th:value="${depart.name}">
+		</div>
+
+		<label class="layui-form-label layui-bg-cyan">通讯地址</label>
+		<div class="layui-input-inline">
+			<input type="text" name="commuAddress" autocomplete="off" class="layui-input" th:value="${depart.commuAddress}">
+		</div>
+	</div>
+
+
+	<div class="layui-form-item">
+		<label class="layui-form-label layui-bg-cyan">部门电话</label>
+		<div class="layui-input-inline">
+			<input type="text" name="telephone" autocomplete="off" class="layui-input" th:value="${depart.telephone}">
+		</div>
+
+		<label class="layui-form-label layui-bg-cyan">传真</label>
+		<div class="layui-input-inline">
+			<input type="text" name="fax" autocomplete="off" class="layui-input" th:value="${depart.fax}">
+		</div>
+	</div>
+
+	<div class="layui-form-item layui-form-text">
+		<label class="layui-form-label layui-bg-cyan">备注</label>
+		<div class="layui-input-block">
+			<textarea name="remark" class="layui-textarea" th:text="${depart.remark}"></textarea>
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label layui-bg-cyan">部门负责人</label>
+		<div class="layui-input-inline">
+			<input type="hidden" name="supervisorId" class="layui-input" th:value="${depart.supervisorId}">
+			<input type="text" name="supervisorName" autocomplete="off" class="layui-input" readonly="readonly" th:value="${depart.supervisorName}">
+		</div>
+
+		<button type="button" class="layui-btn layui-btn-xs load-employee">...</button>
+	</div>
+
+	<hr class="layui-bg-green">
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+			<button class="layui-btn layui-btn-sm" lay-submit lay-filter="formSubmit1">立即提交</button>
+		</div>
+	</div>
+</form>
+
+</body>
+
+<script>
+	layui.use(['form','layer','jquery'], function(){
+		var form = layui.form;
+		var layer = layui.layer;
+		var $ = layui.jquery;
+
+		//监听提交
+		form.on('submit(formSubmit1)', function(data){
+			$.ajax({
+				url:'/depart/editDeaprt',
+				type:'post',
+				data:data.field,
+				async: false,
+				beforeSend:function () {},
+				success:function(result){
+					if(result.state == 1){
+						var index = parent.layer.getFrameIndex(window.name);
+						parent.layer.close(index);
+						window.parent.refreshTab();
+					}else{
+						layer.msg(result.message,{icon: 5});
+					}
+				},
+				complete: function () {}
+			});
+		});
+
+		//加载员工
+		$('.load-employee').on('click', function () {
+			layer.open({
+				type : 2,
+				maxmin : true,
+				skin: 'out-class',
+				title : '选择负责人',
+				area : ['99%','99%'],
+				fix : false,
+				content : '/topage?url=basedata/depart/employee-select.html',
+				success:function(layero,index){
+				}
+			});
+		});
+
+
+	});
+
+</script>
+<style>
+
+</style>
+</html>

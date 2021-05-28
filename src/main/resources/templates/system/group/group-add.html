@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>新增用户组</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}"/>
+	<script th:src="@{/layui/layui.js}"></script>
+	<script th:src="@{/assets/js/templet.js}"></script>
+</head>
+<body>
+
+<form class="layui-form layui-form-pane padding02" action="" method="post" onsubmit="return false;">
+
+	<div class="layui-form-item">
+		<label class="layui-form-label layui-bg-cyan layui-required">用户组名称</label>
+		<div class="layui-input-inline">
+			<input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input">
+		</div>
+
+	</div>
+
+	<div class="layui-form-item layui-form-text">
+		<label class="layui-form-label layui-bg-cyan">用途说明</label>
+		<div class="layui-input-block">
+			<textarea name="description" class="layui-textarea"></textarea>
+		</div>
+	</div>
+
+	<hr class="layui-bg-green">
+
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+			<button class="layui-btn layui-btn-sm" lay-submit lay-filter="formSubmit">立即提交</button>
+			<button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+		</div>
+	</div>
+</form>
+
+</body>
+
+<script>
+	layui.use(['form','layer','jquery'], function(){
+		var form = layui.form;
+		var layer = layui.layer;
+		var $ = layui.jquery;
+
+		//监听提交
+		form.on('submit(formSubmit)', function(data){
+			$.ajax({
+				url:'/group/addGroup',
+				type:'post',
+				data:data.field,
+				async: false,
+				success:function(result){
+					if(result.state == 1){
+						var index = parent.layer.getFrameIndex(window.name);
+						parent.layer.close(index);
+						window.parent.queryTab();
+					}else{
+						layer.msg(result.message,{icon: 5});
+					}
+				}
+			});
+		});
+
+	});
+
+</script>
+<style>
+
+</style>
+</html>

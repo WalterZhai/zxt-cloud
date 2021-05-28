@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>个人中心</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}"/>
+	<script th:src="@{/layui/layui.js}"></script>
+	<script th:src="@{/assets/js/templet.js}"></script>
+</head>
+<body>
+
+<div class="user-body" id="user-info"></div>
+
+</body>
+
+<script>
+	layui.use(['form','layer','jquery','upload'], function(){
+		var form = layui.form;
+		var layer = layui.layer;
+		var $ = layui.jquery;
+		var upload = layui.upload;
+		var loading;
+		var id = '';
+
+		layer.ready(function () {
+			$.ajax({
+				url:'/user/viewBaseInfo',
+				type:'post',
+				async: false,
+				success:function(result){
+					if(result.state == 1){
+						id = result.data.id;
+						userInfoYes(result.data);
+					}else{
+						userInfoNo();
+					}
+				},
+			});
+		});
+
+		function userInfoYes(obj) {
+			$('#user-info').empty();
+			var img = '<div class="img-btn-edit">' +
+					'<img id="user-img" src="/assets/images/ic_403.png">' +
+					'<div style="text-align: center;margin-top: 10px;">' +
+					'<button type="button" class="layui-btn layui-btn-sm user-edit" onclick="userEdit();">修改信息</button>' +
+					'<button type="button" class="layui-btn layui-btn-sm" id="user-upload">上传头像</button>' +
+					'</div>' +
+					'</div>';
+			$('#user-info').append(img);
+			var hml = '<div class="wd">工号：'+obj.code +
+					'</div><div class="wd">姓名：'+obj.name +
+					'</div><div class="wd">曾用名：'+obj.usedName +
+					'</div><div class="wd">性别：'+obj.sex +
+					'</div><div class="wd">身份证：'+obj.idCardNum +
+					'</div><div class="wd">社会保障号：'+obj.socCardNum +
+					'</div><div class="wd">生日：'+obj.birthday +
+					'</div><div class="wd">家庭住址：'+obj.address +
+					'</div><div class="wd">邮政编码：'+obj.zipcode +
+					'</div><div class="wd">办公电话：'+obj.officeTele +
+					'</div><div class="wd">家庭电话：'+obj.homeTele +
+					'</div><div class="wd">手机号码：'+obj.mobile +
+					'</div><div class="wd">电子邮箱：'+obj.email +
+					'</div><div class="wd">参加工作日期：'+obj.careerBeginDate +
+					'</div><div class="wd">入职日期：'+obj.joinCompanyDate +
+					'</div><div class="wd">部门：'+obj.departName +
+					'</div><div class="wd">学历：'+obj.education +
+					'</div><div class="wd">专业：'+obj.major +
+					'</div><div class="wd">职务：'+obj.job +
+					'</div><div class="wd">银行卡号：'+obj.bankNumber +
+					'</div><div class="wd">合同截止日期：'+obj.contractEndDate +
+					'</div><div class="wd">备注：'+obj.remark +
+					'</div>';
+			$('#user-info').append(hml);
+			loadAvatar();
+		}
+
+		function userInfoNo() {
+			$('#user-info').empty();
+			$('#user-info').append('未找到用户信息!');
+		}
+
+		function loadAvatar(){
+			$.ajax({
+				url:'/user/loadAvatar',
+				data: {
+					id: id
+				},
+				type:'post',
+				async: false,
+				success:function(result){
+					$('#user-img').attr('src',result.data);
+				}
+			});
+		}
+
+		window.userEdit = function(){
+			layer.open({
+				type : 2,
+				maxmin : true,
+				skin: 'out-class',
+				title : '修改个人信息',
+				area : [ '60%', '99%' ],
+				fix : false,
+				content : '/topage/employeeEntity?url=system/index/user-info-edit.html&id='+id
+			});
+		}
+
+		upload.render({
+			elem: '#user-upload'
+			,url: '/user/uploadAvatar'
+			,accept:'images'
+			,exts:'jpg'
+			,multiple:false
+			,size:204800
+			,before: function () {
+				this.data = {
+					id: id
+				}
+				loading = layer.msg('正在提交...', {icon: 16, shade: 0.3, time:0});
+			}
+			,done: function(res){
+				if(res.state == 1){
+					layer.close(loading);
+					layer.msg('上传完毕!',{icon: 1});
+					loadAvatar();
+				}else{
+					layer.msg(result.message,{icon: 5});
+				}
+			}
+			,error: function(){}
+		});
+
+	});
+
+</script>
+<style>
+
+	.user-body {
+		margin: 10px;
+		padding: 10px;
+		border: 4px double #009688;
+		width: 842px;
+		height: 700px;
+		font-size: 18px;
+		color: #2F4056;
+	}
+
+	.user-body .wd{
+		width: 500px;
+		margin-bottom: 5px;
+	}
+
+	.img-btn-edit {
+		float:right;
+	}
+
+	.img-btn-edit img{
+		width: 150px;
+		height: 150px;
+		border:0.5px solid #dddddd;
+		border-radius:50%;
+		overflow:hidden;
+	}
+
+</style>
+</html>
