@@ -56,7 +56,7 @@ public class InitImplementsService {
      * @date 2021/3/10
      */
     public void initSpringSessionTable(){
-        String judgeSql = " select COUNT(*) from information_schema.tables where table_name ='spring_session' ";
+        String judgeSql = " select COUNT(*) from information_schema.tables where table_schema='unimax' and table_name ='spring_session' ";
         BigInteger judge = (BigInteger) unimaxEntityManager.createNativeQuery(judgeSql).getSingleResult();
         if(judge.compareTo(BigInteger.ZERO)==0){
             StringBuffer sql = new StringBuffer();
@@ -76,7 +76,7 @@ public class InitImplementsService {
             unimaxEntityManager.createNativeQuery(sql.toString()).executeUpdate();
             logger.info("spring session 主表建立成功");
         }
-        judgeSql = " select COUNT(*) from information_schema.tables where table_name ='spring_session_attributes' ";
+        judgeSql = " select COUNT(*) from information_schema.tables where table_schema='unimax' and table_name ='spring_session_attributes' ";
         judge = (BigInteger) unimaxEntityManager.createNativeQuery(judgeSql).getSingleResult();
         if(judge.compareTo(BigInteger.ZERO)==0){
             StringBuffer sql = new StringBuffer();
