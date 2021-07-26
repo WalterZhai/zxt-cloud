@@ -8,6 +8,7 @@ import com.zxt.zxtcloud.basedata.entity.Employee;
 import com.zxt.zxtcloud.basedata.repository.DepartRepository;
 import com.zxt.zxtcloud.basedata.repository.EmployeeRepository;
 import com.zxt.zxtcloud.common.constant.SysConstant;
+import com.zxt.zxtcloud.common.distributedlock.CacheLock;
 import com.zxt.zxtcloud.common.entity.JsonResult;
 import com.zxt.zxtcloud.common.entity.TableEntity;
 import com.zxt.zxtcloud.common.exception.UnimaxException;
@@ -78,6 +79,7 @@ public class DepartController {
         return modelAndView;
     }
 
+    @CacheLock(prefix = "/depart/addDeaprt")
     @PostMapping(value = "/depart/addDeaprt")
     public JsonResult addDeaprt(HttpServletRequest request) {
         String parentId = request.getParameter("parentId");
@@ -109,6 +111,7 @@ public class DepartController {
         }
     }
 
+    @CacheLock(prefix = "/depart/editDeaprt")
     @PostMapping(value = "/depart/editDeaprt")
     public JsonResult editDeaprt(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -135,6 +138,7 @@ public class DepartController {
         }
     }
 
+    @CacheLock(prefix = "/depart/delDepart")
     @PostMapping(value = "/depart/delDepart")
     public JsonResult delDepart(HttpServletRequest request) {
         try{

@@ -3,6 +3,7 @@ package com.zxt.zxtcloud.basedata.controller;
 import com.zxt.zxtcloud.basedata.Impl.SystemParamsServiceImpl;
 import com.zxt.zxtcloud.basedata.entity.SystemParams;
 import com.zxt.zxtcloud.basedata.repository.SystemParamsRepository;
+import com.zxt.zxtcloud.common.distributedlock.CacheLock;
 import com.zxt.zxtcloud.common.entity.JsonResult;
 import com.zxt.zxtcloud.common.entity.TableEntity;
 import com.zxt.zxtcloud.common.exception.UnimaxException;
@@ -43,7 +44,7 @@ public class SystemParamsController {
         return table;
     }
 
-
+    @CacheLock(prefix = "/systemParams/delSystemParams")
     @PostMapping(value = "/systemParams/delSystemParams")
     public JsonResult delSystemParams(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -69,6 +70,7 @@ public class SystemParamsController {
         return modelAndView;
     }
 
+    @CacheLock(prefix = "/systemParams/addSystemParams")
     @PostMapping(value = "/systemParams/addSystemParams")
     public JsonResult addSystemParams(HttpServletRequest request) {
         String name = request.getParameter("name");
@@ -88,6 +90,7 @@ public class SystemParamsController {
         }
     }
 
+    @CacheLock(prefix = "/systemParams/editSystemParams")
     @PostMapping(value = "/systemParams/editSystemParams")
     public JsonResult editSystemParams(HttpServletRequest request) {
         String id = request.getParameter("id");

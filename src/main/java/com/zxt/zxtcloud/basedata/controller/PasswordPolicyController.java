@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.zxt.zxtcloud.basedata.Impl.PasswordPolicyServiceImpl;
 import com.zxt.zxtcloud.basedata.entity.PasswordPolicy;
 import com.zxt.zxtcloud.basedata.repository.PasswordPolicyRepository;
+import com.zxt.zxtcloud.common.distributedlock.CacheLock;
 import com.zxt.zxtcloud.common.entity.JsonResult;
 import com.zxt.zxtcloud.common.entity.TableEntity;
 import com.zxt.zxtcloud.common.exception.UnimaxException;
@@ -45,7 +46,7 @@ public class PasswordPolicyController {
         return table;
     }
 
-
+    @CacheLock(prefix = "/passwordPolicy/delPasswordPolicy")
     @PostMapping(value = "/passwordPolicy/delPasswordPolicy")
     public JsonResult delPasswordPolicy(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -71,6 +72,7 @@ public class PasswordPolicyController {
         return modelAndView;
     }
 
+    @CacheLock(prefix = "/passwordPolicy/addPasswordPolicy")
     @PostMapping(value = "/passwordPolicy/addPasswordPolicy")
     public JsonResult addPasswordPolicy(HttpServletRequest request) {
         String name = request.getParameter("name");
@@ -89,6 +91,7 @@ public class PasswordPolicyController {
         }
     }
 
+    @CacheLock(prefix = "/passwordPolicy/editPasswordPolicy")
     @PostMapping(value = "/passwordPolicy/editPasswordPolicy")
     public JsonResult editPasswordPolicy(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -107,6 +110,7 @@ public class PasswordPolicyController {
         }
     }
 
+    @CacheLock(prefix = "/passwordPolicy/usedPasswordPolicy", type = "cluster")
     @PostMapping(value = "/passwordPolicy/usedPasswordPolicy")
     public JsonResult usedPasswordPolicy(HttpServletRequest request) {
         String arrs = request.getParameter("arrs");

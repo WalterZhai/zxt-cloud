@@ -8,6 +8,7 @@ import com.zxt.zxtcloud.basedata.entity.Depart;
 import com.zxt.zxtcloud.basedata.entity.Employee;
 import com.zxt.zxtcloud.basedata.repository.EmployeeRepository;
 import com.zxt.zxtcloud.common.constant.SysConstant;
+import com.zxt.zxtcloud.common.distributedlock.CacheLock;
 import com.zxt.zxtcloud.common.entity.JsonResult;
 import com.zxt.zxtcloud.common.entity.TableEntity;
 import com.zxt.zxtcloud.common.exception.UnimaxException;
@@ -56,6 +57,7 @@ public class EmployeeController {
         return table;
     }
 
+    @CacheLock(prefix = "/employee/delEmployees")
     @PostMapping(value = "/employee/delEmployees")
     public JsonResult delEmployees(HttpServletRequest request) {
         String arrs = request.getParameter("arrs");
@@ -74,6 +76,7 @@ public class EmployeeController {
         }
     }
 
+    @CacheLock(prefix = "/employee/delEmployee")
     @PostMapping(value = "/employee/delEmployee")
     public JsonResult deleteEmployee(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -87,6 +90,7 @@ public class EmployeeController {
         }
     }
 
+    @CacheLock(prefix = "/employee/genEmployees")
     @PostMapping(value = "/employee/genEmployees")
     public JsonResult genEmployees(HttpServletRequest request) {
         String arrs = request.getParameter("arrs");
@@ -122,6 +126,7 @@ public class EmployeeController {
         return modelAndView;
     }
 
+    @CacheLock(prefix = "/employee/addEmployee")
     @PostMapping(value = "/employee/addEmployee")
     public JsonResult addEmployee(HttpServletRequest request) {
         String name = request.getParameter("name");
@@ -192,6 +197,7 @@ public class EmployeeController {
         }
     }
 
+    @CacheLock(prefix = "/employee/editEmployee")
     @PostMapping(value = "/employee/editEmployee")
     public JsonResult editEmployee(HttpServletRequest request) {
         String id = request.getParameter("id");
