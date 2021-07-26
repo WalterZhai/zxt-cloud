@@ -150,4 +150,10 @@ public interface SysConstant {
     /** 附件基本地址 **/
     String ATTACHMENT_BASE_PATH = "attachment/";
 
+    /** 分布式锁 类型 个人 **/
+    String DISTRIBUTED_PERSONAL = "personal";
+
+    /** 分布式锁 类型 集群 **/
+    String DISTRIBUTED_CLUSTER = "cluster";
+
 }

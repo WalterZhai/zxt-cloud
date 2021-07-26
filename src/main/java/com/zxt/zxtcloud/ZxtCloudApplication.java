@@ -1,7 +1,10 @@
 package com.zxt.zxtcloud;
 
+import com.zxt.zxtcloud.common.distributedlock.CacheKeyGenerator;
+import com.zxt.zxtcloud.common.distributedlock.LockKeyGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 /**
  * @author Walter(翟笑天)
@@ -14,4 +17,8 @@ public class ZxtCloudApplication {
         SpringApplication.run(ZxtCloudApplication.class, args);
     }
 
+    @Bean
+    public CacheKeyGenerator cacheKeyGenerator() {
+        return new LockKeyGenerator();
+    }
 }
