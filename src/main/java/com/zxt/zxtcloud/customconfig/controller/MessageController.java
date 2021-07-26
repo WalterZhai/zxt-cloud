@@ -2,6 +2,7 @@ package com.zxt.zxtcloud.customconfig.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.zxt.zxtcloud.common.distributedlock.CacheLock;
 import com.zxt.zxtcloud.common.entity.JsonResult;
 import com.zxt.zxtcloud.common.entity.TableEntity;
 import com.zxt.zxtcloud.common.exception.UnimaxException;
@@ -61,7 +62,7 @@ public class MessageController {
         }
     }
 
-
+    @CacheLock(prefix = "/message/addMessageInfo")
     @PostMapping(value = "/message/addMessageInfo")
     public JsonResult addMessageInfo(HttpServletRequest request,Integer type) {
         String username = (String) request.getSession().getAttribute("username");
@@ -77,6 +78,7 @@ public class MessageController {
         }
     }
 
+    @CacheLock(prefix = "/message/delMessages")
     @PostMapping(value = "/message/delMessages")
     public JsonResult delMessages(HttpServletRequest request) {
         String arrs = request.getParameter("arrs");
@@ -89,6 +91,7 @@ public class MessageController {
         }
     }
 
+    @CacheLock(prefix = "/message/delMessage")
     @PostMapping(value = "/message/delMessage")
     public JsonResult delMessage(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -102,6 +105,7 @@ public class MessageController {
         }
     }
 
+    @CacheLock(prefix = "/message/editMessage")
     @PostMapping(value = "/message/editMessage")
     public JsonResult editMessage(HttpServletRequest request,String id,String title,String content) {
         try{
@@ -112,6 +116,7 @@ public class MessageController {
         }
     }
 
+    @CacheLock(prefix = "/message/sendMessage")
     @PostMapping(value = "/message/sendMessage")
     public JsonResult sendMessage(HttpServletRequest request) {
         String arrs = request.getParameter("arrs");
@@ -124,6 +129,7 @@ public class MessageController {
         }
     }
 
+    @CacheLock(prefix = "/message/cancelMessage")
     @PostMapping(value = "/message/cancelMessage")
     public JsonResult cancelMessage(HttpServletRequest request) {
         String arrs = request.getParameter("arrs");
@@ -181,6 +187,7 @@ public class MessageController {
         }
     }
 
+    @CacheLock(prefix = "/message/feedback")
     @PostMapping(value = "/message/feedback")
     public JsonResult feedback(HttpServletRequest request,Integer type) {
         String username = (String) request.getSession().getAttribute("username");
@@ -204,6 +211,7 @@ public class MessageController {
         return table;
     }
 
+    @CacheLock(prefix = "/message/delMessageInfos")
     @PostMapping(value = "/message/delMessageInfos")
     public JsonResult delMessageInfos(HttpServletRequest request) {
         String arrs = request.getParameter("arrs");

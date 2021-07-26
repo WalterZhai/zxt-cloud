@@ -1,5 +1,6 @@
 package com.zxt.zxtcloud.customconfig.controller;
 
+import com.zxt.zxtcloud.common.distributedlock.CacheLock;
 import com.zxt.zxtcloud.common.entity.JsonResult;
 import com.zxt.zxtcloud.common.entity.TableEntity;
 import com.zxt.zxtcloud.common.exception.UnimaxException;
@@ -54,7 +55,7 @@ public class ScheduleTaskController {
         return modelAndView;
     }
 
-
+    @CacheLock(prefix = "/scheduleTask/addScheduleTask")
     @PostMapping(value = "/scheduleTask/addScheduleTask")
     public JsonResult addScheduleTask(HttpServletRequest request) {
         String name = request.getParameter("name");
@@ -78,6 +79,7 @@ public class ScheduleTaskController {
         }
     }
 
+    @CacheLock(prefix = "/scheduleTask/editScheduleTask")
     @PostMapping(value = "/scheduleTask/editScheduleTask")
     public JsonResult editScheduleTask(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -101,7 +103,7 @@ public class ScheduleTaskController {
         }
     }
 
-
+    @CacheLock(prefix = "/scheduleTask/delScheduleTask")
     @PostMapping(value = "/scheduleTask/delScheduleTask")
     public JsonResult delScheduleTask(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -115,6 +117,7 @@ public class ScheduleTaskController {
         }
     }
 
+    @CacheLock(prefix = "/scheduleTask/startScheduleTask")
     @PostMapping(value = "/scheduleTask/startScheduleTask")
     public JsonResult startScheduleTask(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -129,6 +132,7 @@ public class ScheduleTaskController {
         }
     }
 
+    @CacheLock(prefix = "/scheduleTask/stopScheduleTask")
     @PostMapping(value = "/scheduleTask/stopScheduleTask")
     public JsonResult stopScheduleTask(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -143,7 +147,7 @@ public class ScheduleTaskController {
         }
     }
 
-
+    @CacheLock(prefix = "/scheduleTask/executeScheduleTask")
     @PostMapping(value = "/scheduleTask/executeScheduleTask")
     public JsonResult executeScheduleTask(HttpServletRequest request) {
         String id = request.getParameter("id");

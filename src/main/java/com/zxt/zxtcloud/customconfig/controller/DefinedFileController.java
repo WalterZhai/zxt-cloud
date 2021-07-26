@@ -1,6 +1,7 @@
 package com.zxt.zxtcloud.customconfig.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.zxt.zxtcloud.common.distributedlock.CacheLock;
 import com.zxt.zxtcloud.customconfig.Impl.DefinedFileServiceImpl;
 import com.zxt.zxtcloud.customconfig.entity.DefinedFile;
 import com.zxt.zxtcloud.customconfig.entity.DefinedFileDetail;
@@ -60,6 +61,7 @@ public class DefinedFileController {
         return table;
     }
 
+    @CacheLock(prefix = "/definedFile/addDefinedFile")
     @PostMapping(value = "/definedFile/addDefinedFile")
     public JsonResult addDefinedFile(HttpServletRequest request, String code, String name, String description) {
         try{
@@ -74,6 +76,7 @@ public class DefinedFileController {
         }
     }
 
+    @CacheLock(prefix = "/definedFile/editDefinedFile")
     @PostMapping(value = "/definedFile/editDefinedFile")
     public JsonResult editDefinedFile(HttpServletRequest request,String id,String code,String name,String description) {
         try{
@@ -88,6 +91,7 @@ public class DefinedFileController {
         }
     }
 
+    @CacheLock(prefix = "/definedFile/delDefinedFile")
     @PostMapping(value = "/definedFile/delDefinedFile")
     public JsonResult delDefinedFile(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -106,7 +110,7 @@ public class DefinedFileController {
         }
     }
 
-
+    @CacheLock(prefix = "/definedFileDetail/addDefinedFileDetail")
     @PostMapping(value = "/definedFileDetail/addDefinedFileDetail")
     public JsonResult addDefinedFileDetail(HttpServletRequest request, String definedid, String code, String name, Integer seq, String value, String remark) {
         try{
@@ -126,6 +130,7 @@ public class DefinedFileController {
         }
     }
 
+    @CacheLock(prefix = "/definedFileDetail/delDefinedFileDetail")
     @PostMapping(value = "/definedFileDetail/delDefinedFileDetail")
     public JsonResult delDefinedFileDetail(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -139,7 +144,7 @@ public class DefinedFileController {
         }
     }
 
-
+    @CacheLock(prefix = "/definedFileDetail/editDefinedFileDetail")
     @PostMapping(value = "/definedFileDetail/editDefinedFileDetail")
     public JsonResult editDefinedFileDetail(HttpServletRequest request, String id, String code, String name, Integer seq, String value, String remark) {
         try{
@@ -156,7 +161,7 @@ public class DefinedFileController {
         }
     }
 
-
+    @CacheLock(prefix = "/definedFileDetail/activeDefinedFileDetail")
     @PostMapping(value = "/definedFileDetail/activeDefinedFileDetail")
     public JsonResult activeDefinedFileDetail(HttpServletRequest request) {
         String arrs = request.getParameter("arrs");
@@ -172,6 +177,7 @@ public class DefinedFileController {
         }
     }
 
+    @CacheLock(prefix = "/definedFileDetail/noActiveDefinedFileDetail")
     @PostMapping(value = "/definedFileDetail/noActiveDefinedFileDetail")
     public JsonResult noActiveDefinedFileDetail(HttpServletRequest request) {
         String arrs = request.getParameter("arrs");

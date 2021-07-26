@@ -1,6 +1,7 @@
 package com.zxt.zxtcloud.customconfig.controller;
 
 import com.zxt.zxtcloud.common.constant.SysConstant;
+import com.zxt.zxtcloud.common.distributedlock.CacheLock;
 import com.zxt.zxtcloud.common.entity.JsonResult;
 import com.zxt.zxtcloud.common.entity.TableEntity;
 import com.zxt.zxtcloud.common.exception.UnimaxException;
@@ -45,7 +46,7 @@ public class DocuNumController {
         return table;
     }
 
-
+    @CacheLock(prefix = "/docuNum/delDocuNum")
     @PostMapping(value = "/docuNum/delDocuNum")
     public JsonResult delDocuNum(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -71,6 +72,7 @@ public class DocuNumController {
         return modelAndView;
     }
 
+    @CacheLock(prefix = "/docuNum/addDocuNum")
     @PostMapping(value = "/docuNum/addDocuNum")
     public JsonResult addDocuNum(HttpServletRequest request) {
         String code = request.getParameter("code");
@@ -94,6 +96,7 @@ public class DocuNumController {
         }
     }
 
+    @CacheLock(prefix = "/docuNum/editDocuNum")
     @PostMapping(value = "/docuNum/editDocuNum")
     public JsonResult editDocuNum(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -114,6 +117,7 @@ public class DocuNumController {
         }
     }
 
+    @CacheLock(prefix = "/docuNum/nextDocuNum")
     @PostMapping(value = "/docuNum/nextDocuNum")
     public JsonResult nextDocuNum(HttpServletRequest request) {
         String id = request.getParameter("id");
