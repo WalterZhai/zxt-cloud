@@ -16,11 +16,11 @@ public class DistributedLock {
     @Id
     @Column(name = "LOCK_KEY",columnDefinition = "VARCHAR(300) COMMENT '锁key'")
     private String lockKey;
-    @Column(name = "CREATE_DATE",updatable = false,nullable = false,columnDefinition = "DATE DEFAULT SYSDATE  COMMENT '创建时间' ")
+    @Column(name = "CREATE_DATE",updatable = false,nullable = false,columnDefinition = "datetime COMMENT '创建时间' ")
     protected Date createDate;
     @Column(name = "expire",columnDefinition = "int COMMENT '过期时间值' ")
     private Integer expire;
-    @Column(name = "TIME_UNIT",columnDefinition = "VARCHAR(30) '过期时间单位' ")
+    @Column(name = "TIME_UNIT",columnDefinition = "VARCHAR(30) COMMENT '过期时间单位' ")
     private String timeUnit;
 
     public DistributedLock() {

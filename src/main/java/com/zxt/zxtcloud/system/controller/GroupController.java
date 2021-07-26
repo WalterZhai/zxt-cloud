@@ -3,6 +3,7 @@ package com.zxt.zxtcloud.system.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.zxt.zxtcloud.common.constant.SysConstant;
+import com.zxt.zxtcloud.common.distributedlock.CacheLock;
 import com.zxt.zxtcloud.common.entity.JsonResult;
 import com.zxt.zxtcloud.common.entity.TableEntity;
 import com.zxt.zxtcloud.common.exception.UnimaxException;
@@ -71,6 +72,7 @@ public class GroupController {
         return table;
     }
 
+    @CacheLock(prefix = "/group/addGroup")
     @PostMapping(value = "/group/addGroup")
     public JsonResult addGroup(HttpServletRequest request, String name, String description) {
         try{
@@ -85,6 +87,7 @@ public class GroupController {
         }
     }
 
+    @CacheLock(prefix = "/group/delGroups")
     @PostMapping(value = "/group/delGroups")
     public JsonResult delGroups(HttpServletRequest request) {
         String arrs = request.getParameter("arrs");
@@ -114,6 +117,7 @@ public class GroupController {
         }
     }
 
+    @CacheLock(prefix = "/group/editGroup")
     @PostMapping(value = "/group/editGroup")
     public JsonResult editGroup(HttpServletRequest request,String id,String name,String description) {
         try{
@@ -130,6 +134,7 @@ public class GroupController {
         }
     }
 
+    @CacheLock(prefix = "/group/delGroup")
     @PostMapping(value = "/group/delGroup")
     public JsonResult delGroup(HttpServletRequest request) {
         String id = request.getParameter("id");

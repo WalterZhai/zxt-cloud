@@ -3,6 +3,7 @@ package com.zxt.zxtcloud.system.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.zxt.zxtcloud.common.constant.SysConstant;
+import com.zxt.zxtcloud.common.distributedlock.CacheLock;
 import com.zxt.zxtcloud.common.entity.JsonResult;
 import com.zxt.zxtcloud.common.entity.TableEntity;
 import com.zxt.zxtcloud.common.exception.UnimaxException;
@@ -140,6 +141,7 @@ public class MenuController {
         return table;
     }
 
+    @CacheLock(prefix = "/menu/addMenu")
     @PostMapping(value = "/menu/addMenu")
     public JsonResult addMenu(HttpServletRequest request,String id,String name,String href,Integer type,String icon) {
         try{
@@ -165,6 +167,7 @@ public class MenuController {
         }
     }
 
+    @CacheLock(prefix = "/menu/editMenu")
     @PostMapping(value = "/menu/editMenu")
     public JsonResult editMenu(HttpServletRequest request,String id,String name,String href,Integer type,String icon) {
         try{
@@ -180,6 +183,7 @@ public class MenuController {
         }
     }
 
+    @CacheLock(prefix = "/menu/delMenu")
     @PostMapping(value = "/menu/delMenu")
     public JsonResult delMenu(HttpServletRequest request,String id) {
         try{
@@ -220,6 +224,7 @@ public class MenuController {
         }
     }
 
+    @CacheLock(prefix = "/menu/rowUp")
     @PostMapping(value = "/menu/rowUp")
     public JsonResult rowUp(HttpServletRequest request,String id) {
         try{
@@ -230,6 +235,7 @@ public class MenuController {
         }
     }
 
+    @CacheLock(prefix = "/menu/rowDown")
     @PostMapping(value = "/menu/rowDown")
     public JsonResult rowDown(HttpServletRequest request,String id) {
         try{

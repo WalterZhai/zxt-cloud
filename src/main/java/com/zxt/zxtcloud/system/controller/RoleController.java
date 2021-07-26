@@ -3,6 +3,7 @@ package com.zxt.zxtcloud.system.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.zxt.zxtcloud.common.constant.SysConstant;
+import com.zxt.zxtcloud.common.distributedlock.CacheLock;
 import com.zxt.zxtcloud.common.entity.JsonResult;
 import com.zxt.zxtcloud.common.entity.TableEntity;
 import com.zxt.zxtcloud.common.exception.UnimaxException;
@@ -58,6 +59,7 @@ public class RoleController {
         return table;
     }
 
+    @CacheLock(prefix = "/role/delRoles")
     @PostMapping(value = "/role/delRoles")
     public JsonResult delRoles(HttpServletRequest request) {
         String arrs = request.getParameter("arrs");
@@ -88,6 +90,7 @@ public class RoleController {
         }
     }
 
+    @CacheLock(prefix = "/role/delRole")
     @PostMapping(value = "/role/delRole")
     public JsonResult delRole(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -113,7 +116,7 @@ public class RoleController {
         }
     }
 
-
+    @CacheLock(prefix = "/role/addRole")
     @PostMapping(value = "/role/addRole")
     public JsonResult addRole(HttpServletRequest request,String name,String description) {
         try{
@@ -129,7 +132,7 @@ public class RoleController {
         }
     }
 
-
+    @CacheLock(prefix = "/role/editRole")
     @PostMapping(value = "/role/editRole")
     public JsonResult editRole(HttpServletRequest request,String id,String name,String description) {
         try{

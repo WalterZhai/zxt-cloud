@@ -7,6 +7,7 @@ import com.zxt.zxtcloud.basedata.bo.SimpleUserInfoBo;
 import com.zxt.zxtcloud.basedata.entity.Employee;
 import com.zxt.zxtcloud.basedata.repository.EmployeeRepository;
 import com.zxt.zxtcloud.common.constant.SysConstant;
+import com.zxt.zxtcloud.common.distributedlock.CacheLock;
 import com.zxt.zxtcloud.common.entity.JsonResult;
 import com.zxt.zxtcloud.common.entity.TableEntity;
 import com.zxt.zxtcloud.common.exception.UnimaxException;
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Walter(翟笑天)
@@ -153,13 +155,14 @@ public class UserController {
         }
     }
 
+    @CacheLock(prefix = "/user/addUser")
     @PostMapping(value = "/user/addUser")
     public JsonResult addUser(HttpServletRequest request) {
         String name = request.getParameter("name");
         String loginName = request.getParameter("loginName");
         String email = request.getParameter("email");
         String mobile = request.getParameter("mobile");
-        try{
+        try {
             User user = new User();
             user.setLoginName(loginName);
             user.setPassword(SysConstant.PASSWORD);
@@ -169,12 +172,13 @@ public class UserController {
             user.setIsLocked(SysConstant.CONSTANT_ZERO);
             userRepository.save(user);
             return new JsonResult("添加成功");
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return new JsonResult(new UnimaxException(e.getMessage()));
         }
     }
 
+    @CacheLock(prefix = "/user/delUsers")
     @PostMapping(value = "/user/delUsers")
     public JsonResult delUsers(HttpServletRequest request) {
         String arrs = request.getParameter("arrs");
@@ -200,6 +204,7 @@ public class UserController {
     }
 
 
+    @CacheLock(prefix = "/user/editUser")
     @PostMapping(value = "/user/editUser")
     public JsonResult editUser(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -221,6 +226,7 @@ public class UserController {
         }
     }
 
+    @CacheLock(prefix = "/user/delUser")
     @PostMapping(value = "/user/delUser")
     public JsonResult delUser(HttpServletRequest request) {
         String obj = request.getParameter("obj");
